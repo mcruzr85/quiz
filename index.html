@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz do futuro</title>
+    <style>
+        body{
+            background: #121c21;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+             height: 100vh;
+           
+        }
+        h1{
+            text-align: center;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+       button{            
+            font-size: 24px;
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 18px 15px;
+            background: #121c21;
+            color: white;
+            text-align: left;
+            border: 4px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(
+                0deg,
+                #F7DC11 0%,
+                #F0A81A 25%,
+                #E4801D 50%,
+                #D85116 75%,
+               #B50D13 100%
+            );
+            cursor: pointer;            
+        }
+
+        button:hover{
+            background: linear-gradient(
+                0deg,
+                #F7DC11 0%,
+                #F0A81A 25%,
+                #E4801D 50%,
+                #D85116 75%,
+               #B50D13 100%
+            );
+        }
+        p{           
+            font-size: 24px;
+        }
+        img{
+            margin-bottom: 80px;
+        }
+        .escondido{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="logo-quiz-do-futuro.png" alt="logo"/>
+
+    <div class="pergunta1" onclick="checarResposta(event)">
+    <h1>Para trabalhar com programação eu preciso:</h1>
+    <button>Ser uma pessoa boa em matemática</button> 
+    <button>Ter usado computadoras desde criança e jogar video games</button> 
+    <button class="opcaoCerta">Gostar de resolver problemas e trabalhar em equipe</button>   
+    </div>
+
+    <div class="pergunta2 escondido" onclick="checarResposta(event)">
+    <h1>O que é JavaScript:</h1>
+    <button class="opcaoCerta">Uma linguagem de programação que os desenvolvedores usam para criar páginas da Web interativas</button>
+    <button>Uma linguagem de marcação de hipertexto</button> 
+    <button>Uma plataforma de código aberto para criar aplicativos de desktop, web e móveis</button> 
+    </div>
+
+    <div class="pergunta3 escondido" onclick="checarResposta(event)">
+    <h1>CSS significa:</h1>
+    <button>Clean Code for Style Sheets</button> 
+    <button>Computing Sciences Style</button> 
+    <button class="opcaoCerta">Cascading Style Sheets (folhas de estilo em cascata).</button>   
+    </div>
+
+    <div class="pergunta4 escondido" onclick="checarResposta(event)">
+    <h1>Para trabalhar com programação eu preciso:4</h1>
+    <button>Ser uma pessoa boa em matemática</button> 
+    <button>Ter usado computadoras desde criança e jogar video games</button> 
+    <button class="opcaoCerta">Gostar de resolver problemas e trabalhar em equipe</button>   
+    </div>
+
+    <div class="pergunta5 escondido" onclick="checarResposta(event)">
+    <h1>Para trabalhar com programação eu preciso:5</h1>
+    <button>Ser uma pessoa boa em matemática</button> 
+    <button>Ter usado computadoras desde criança e jogar video games</button> 
+    <button class="opcaoCerta">Gostar de resolver problemas e trabalhar em equipe</button>   
+    </div>
+
+    <div class="resultado escondido">
+    <h2 id="msj">Parabens!!</h2>
+    <h2>Você acertou <span class="spResultado"></span> de 5 perguntas</h2>
+    <button onclick="reset()">Voltar ao inicio</button>    
+    </div>
+   
+    <p id="nroPreg">1/5</p>
+
+   <script>
+    let contadorAcertos = 0;
+    let perguntaAtual = 1;
+    const utimaPreg = 5;
+
+    const pagina = document.querySelector("#nroPreg");
+    const divResultado = document.querySelector(".resultado");
+
+  function checarResposta(event){
+    const tagDoElemento = event.target.tagName;   
+    const spanResultado = document.querySelector(".spResultado");
+    const msj = document.querySelector("#msj");
+
+    if(tagDoElemento !== "BUTTON"){ //si no doy click en el boton no hace nada
+        return;
+    }
+    if(event.target.className === "opcaoCerta"){
+     contadorAcertos++;  //si click en opcion correcta aumento el contador
+    }
+
+    const divPerguntaAtual = document.querySelector(
+        ".pergunta" + perguntaAtual //obtengo el div actual
+    );
+    divPerguntaAtual.classList.add("escondido");//oculto el div que ya respondi
+   
+    perguntaAtual++; //aumento en uno para ir a la sgte pregunta
+
+    if(perguntaAtual > utimaPreg){    
+    divResultado.classList.remove("escondido");
+    pagina.classList.add("escondido");
+    
+    spanResultado.innerHTML = contadorAcertos;
+   if (contadorAcertos<4) msj.innerHTML = "Você deveria estudar!!"
+   else msj.innerHTML = "Parabens!!"
+
+    }else{
+
+    const divPerguntaSgte = document.querySelector(//obtengo div de la sgte preg
+        ".pergunta" + perguntaAtual
+    );
+
+    divPerguntaSgte.classList.remove("escondido"); //muestro el div de la preg sgte
+    
+    pagina.innerHTML = perguntaAtual + "/5";  //paginacion
+    }  
+}
+
+function reset(){
+    contadorAcertos = 0;
+    perguntaAtual = 1;
+
+    pagina.classList.remove("escondido")
+    pagina.innerHTML = perguntaAtual + "/5";  //paginacion
+
+    divResultado.classList.add("escondido");
+
+    const divPerguntaSgte = document.querySelector(
+        ".pergunta" + perguntaAtual );
+        divPerguntaSgte.classList.remove("escondido"); 
+    
+    
+}
+
+   </script>
+</body>
+</html>
